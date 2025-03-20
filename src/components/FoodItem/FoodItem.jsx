@@ -1,0 +1,49 @@
+import React, { useContext, useState } from 'react'
+import './FoodItem.css'
+import { assets } from '../../assets/assets'
+import { StoreContext } from '../../context/StoreContext'
+
+const FoodItem = ({id,name,price,description,image}) => {
+    //To add itom into cart we have make button
+    // const [itemCount,setItemCount] = useState(0)
+
+    //to get values from context API
+    const {cartItems,addToCart,removeFromCart} = useContext(StoreContext)
+
+  return (
+    <div className='food-item'>
+        <div className="food-item-img-container">
+            <img className='food-item-image' src={image} alt="" />
+            {/* to add and remove items ....if item count is zerp then returs true else return false */}
+            {
+                // !itemCount
+                // ? <img className='add' onClick={()=>setItemCount(prev=>prev+1)} src={assets.add_icon_white}/>
+                // : <div className='food-item-counter'>
+                //     <img onClick={()=>setItemCount(prev=>prev-1)} src={assets.remove_icon_red} alt="" />
+                //     <p>{itemCount}</p>
+                //     <img onClick={()=>setItemCount(prev=>prev+1)} src={assets.add_icon_green} alt="" />
+                // </div>
+
+                //by using context API
+                !cartItems[id]
+                ? <img className='add' onClick={()=>addToCart(id)} src={assets.add_icon_white}/>
+                : <div className='food-item-counter'>
+                    <img onClick={()=>removeFromCart(id)} src={assets.remove_icon_red} alt="" />
+                    <p>{cartItems[id]}</p>
+                    <img onClick={()=>addToCart(id)} src={assets.add_icon_green} alt="" />
+                </div>
+            }
+        </div>
+        <div className="food-item-info">
+            <div className='food-item-name-rating'>
+                <p>{name}</p>
+                <img src={assets.rating_starts} alt="" />
+            </div>
+            <p className="food-item-desc">{description}</p>
+            <p className='food-item-price'>${price}</p>
+        </div>
+    </div>
+  )
+}
+
+export default FoodItem
